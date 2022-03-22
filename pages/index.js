@@ -1,14 +1,11 @@
-import Navbar from "../components/Navbar";
+import Layout from "../components/Layout";
 
 export default function Home() {
   return (
-      <>
-      <div className="bg-sky-100">
-          <Navbar/>
-          <h1 className="underline text-3xl font-bold">
-              Hello world!
-          </h1>
-      </div>
-      </>
-  )
+    <Layout>
+      <p className="font-[Consolas]">
+        TODO: Implement HomePage with authentication
+      </p>
+    </Layout>
+  );
 }
