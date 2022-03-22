@@ -4,10 +4,14 @@ module.exports = {
     "./components/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        'primary': '#4299E1',
+      }
+    },
     fontFamily: {
       'sans': ["Gilroy-Medium", "Consolas", "Sans"]
-    }
+    },
   },
   plugins: [],
 }

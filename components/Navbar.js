@@ -30,8 +30,8 @@ const MyLink = ({secondary, children, to= "#"}) => {
   return (
     <Link href={to}>
       {secondary
-        ? <a className="px-2 py-2 text-black font-sans">{children}</a>
-        : <a className="bg-blue-500 rounded-3xl px-3 py-2 text-white font-sans hover:opacity-90">{children}</a>
+        ? <a className="px-4 py-2 text-black text-base font-sans">{children}</a>
+        : <a className="bg-primary rounded-3xl px-6 py-2 text-white text-base font-sans hover:opacity-80">{children}</a>
       }
     </Link>
   );
