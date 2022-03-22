@@ -5,6 +5,9 @@ module.exports = {
   ],
   theme: {
     extend: {},
+    fontFamily: {
+      'sans': ["Gilroy-Medium", "Consolas", "Sans"]
+    }
   },
   plugins: [],
 }
