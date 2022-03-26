@@ -8,7 +8,7 @@ function Form({ label, children }) {
         <h1 className="text-3xl pb-4">{label}</h1>
         {children}
         <div className="flex flex-col items-center w-full bg-primary font-[Gilroy-Light] text-2xl text-white rounded-2xl hover:opacity-80 py-4 mt-10">
-          <input type="submit" className="w-full text-center" value="Sign In"/>
+          <input type="submit" className="w-full text-center" value={label}/>
         </div>
       </div>
     </form>
@@ -19,7 +19,7 @@ export function SignIn() {
   return (
     <Form label="Sign In">
       <TextField label="Username"/>
-      <TextField label="Password" password />
+      <TextField label="Password" password/>
       <div className="w-full px-1">
         <a href="#" className="font-medium text-md">Forgot password?</a>
       </div>
@@ -32,8 +32,8 @@ export function SignUp() {
     <Form label="Sign Up">
       <TextField label="Username"/>
       <TextField label="Email"/>
-      <TextField label="Password" password />
-      <TextField label="Repeat password" password />
+      <TextField label="Password" password/>
+      <TextField label="Repeat password" password/>
     </Form>
   );
 }
