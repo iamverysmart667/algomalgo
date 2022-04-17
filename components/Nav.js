@@ -66,7 +66,7 @@ const AuthLinks = () => {
 
   return user ? (
     <div className="flex items-center">
-      <Avatar></Avatar>
+      <Avatar/>
       <MyLink to="/profile" secondary>{user.username}</MyLink>
       <a onClick={logout}><Logout/></a>
     </div>
