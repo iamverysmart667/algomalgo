@@ -1,9 +1,9 @@
-import Navbar from "./Navbar";
+import Nav from "./Nav";
 
 function Layout({ children }) {
   return (
     <div className="flex flex-col items-center w-full h-screen">
-      <Navbar/>
+      <Nav/>
       <main className="flex justify-center items-center w-full h-full">
         {children}
       </main>
