@@ -10,11 +10,11 @@ export const usersRepo = {
 async function find(username) {
   const result = await prisma.user.findUnique({
     where: {
-      userName: username,
+      username: username,
     },
     select: {
       id: true,
-      userName: true,
+      username: true,
       email: true,
       password: true,
     },
@@ -25,7 +25,7 @@ async function find(username) {
 async function create(user) {
   const result = await prisma.user.create({
     data: {
-      userName: user.username,
+      username: user.username,
       email: user.email,
       password: user.hash,
     },

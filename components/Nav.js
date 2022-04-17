@@ -1,4 +1,6 @@
 import Link from "next/link"
+import { userService } from "../services";
+import { useEffect, useState } from "react";
 
 const Logo = () => (
   <svg width="206" height="40" viewBox="0 0 206 40" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -26,9 +28,22 @@ const Telegram = () => (
   </svg>
 );
 
-const MyLink = ({secondary, children, to= "#"}) => {
+const Avatar = () => (
+  <svg width="18" height="20" viewBox="0 0 18 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M9 2C6.79086 2 5 3.79086 5 6C5 8.20914 6.79086 10 9 10C11.2091 10 13 8.20914 13 6C13 3.79086 11.2091 2 9 2ZM3 6C3 2.68629 5.68629 0 9 0C12.3137 0 15 2.68629 15 6C15 9.31371 12.3137 12 9 12C5.68629 12 3 9.31371 3 6ZM5 16C3.34315 16 2 17.3431 2 19C2 19.5523 1.55228 20 1 20C0.447715 20 0 19.5523 0 19C0 16.2386 2.23858 14 5 14H13C15.7614 14 18 16.2386 18 19C18 19.5523 17.5523 20 17 20C16.4477 20 16 19.5523 16 19C16 17.3431 14.6569 16 13 16H5Z" fill="#4299E1"/>
+  </svg>
+);
+
+const Logout = () => (
+  <svg width="19" height="18" viewBox="0 0 19 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M12 16C11.4477 16 11 16.4477 11 17C11 17.5523 11.4477 18 12 18H17C18.1046 18 19 17.1046 19 16V2C19 0.895431 18.1046 0 17 0H12C11.4477 0 11 0.447714 11 1C11 1.55228 11.4477 2 12 2H17V16H12Z" fill="#222222"/>
+    <path d="M13.7136 9.70055C13.8063 9.6062 13.8764 9.49805 13.9241 9.38278C13.9727 9.26575 13.9996 9.1375 14 9.003L14 9L14 8.997C13.9992 8.74208 13.9016 8.48739 13.7071 8.29289L9.70711 4.29289C9.31658 3.90237 8.68342 3.90237 8.29289 4.29289C7.90237 4.68342 7.90237 5.31658 8.29289 5.70711L10.5858 8H1C0.447715 8 0 8.44771 0 9C0 9.55229 0.447715 10 1 10H10.5858L8.29289 12.2929C7.90237 12.6834 7.90237 13.3166 8.29289 13.7071C8.68342 14.0976 9.31658 14.0976 9.70711 13.7071L13.7064 9.70782L13.7136 9.70055Z" fill="#222222"/>
+  </svg>
+)
+
+const MyLink = ({secondary, children, to= "#", ...props}) => {
   return (
-    <Link href={to}>
+    <Link href={to} {...props}>
       {secondary
         ? <a className="px-4 py-2 text-black text-base font-sans">{children}</a>
         : <a className="bg-primary rounded-3xl px-6 py-2 text-white text-base font-sans hover:opacity-80">{children}</a>
@@ -37,13 +52,38 @@ const MyLink = ({secondary, children, to= "#"}) => {
   );
 }
 
-function Navbar() {
+const AuthLinks = () => {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const subscription = userService.user.subscribe(x => setUser(x));
+    return () => subscription.unsubscribe();
+  }, []);
+
+  function logout() {
+    userService.logout();
+  }
+
+  return user ? (
+    <div className="flex items-center">
+      <Avatar></Avatar>
+      <MyLink to="/profile" secondary>{user.username}</MyLink>
+      <a onClick={logout}><Logout/></a>
+    </div>
+  ) : (
+    <>
+      <MyLink secondary to="/signUp">Sign Up</MyLink>
+      <MyLink to="/signIn">Sign In</MyLink>
+    </>
+  )
+}
+
+function Nav() {
   return (
     <nav className="flex justify-between px-20 py-2 bg-white w-full">
       <Link href='/'><a><Logo/></a></Link>
       <div className="flex px-2 space-x-4">
-        <MyLink secondary to="/signUp">Sign Up</MyLink>
-        <MyLink to="/signIn">Sign In</MyLink>
+        <AuthLinks/>
         <Github/>
         <Telegram/>
       </div>
@@ -51,4 +91,4 @@ function Navbar() {
   )
 }
 
-export default Navbar;
+export default Nav;
