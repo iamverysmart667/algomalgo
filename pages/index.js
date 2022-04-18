@@ -9,44 +9,71 @@ const Check = () => (
   </svg>
 );
 
-function Item({ topic, subtopic }) {
-  const [checked, setChecked] = useState(false);
+function Item({ state }) {
+  const [checked, setChecked] = useState(state);
   const toggleCheckbox = () => setChecked(!checked);
   return (
     <div className="flex items-center space-x-8">
-      <div className={`font-[Gilroy-Bold] w-1/3 pb-8 ${topic && 'mt-8'}`}>{topic}</div>
       <div className={`bg-gradient-to-b from-gray-300 to-gray-300 bg-no-repeat bg-center bg-[length:1px] pb-8`}>
         {checked
-          ? <div className={`${topic && 'mt-8'}`} onClick={toggleCheckbox}><Check/></div>
-          : <div className={`${topic && 'mt-8'} rounded-3xl w-6 h-6 bg-sky-50 border border-gray-400`}
-                 onClick={toggleCheckbox}/>
+          ? <div onClick={toggleCheckbox}><Check/></div>
+          : <div className={`rounded-3xl w-6 h-6 bg-sky-50 border border-gray-400`} onClick={toggleCheckbox}/>
         }
       </div>
-      <div className={`font-[Gilroy-Light] pb-8 ${topic && 'mt-8'}`}>{subtopic}</div>
     </div>
   );
 }
 
 export default function Home() {
+  const [items, setItems] = useState([
+    {
+      left: "Topic 1 arsitonariostn iaors taioerstn oaiesnt ioaer stioan",
+      right: "Subtopic 1",
+      state: false
+    },
+    {
+      left: "Topic 2",
+      right: "Subtopic 2",
+      state: false
+    },
+    {
+      left: "Topic 3",
+      right: "Subtopic 3ariosnt ioa trsiot aiostn airstnair tairost ariost oa",
+      state: false
+    },
+    {
+      left: "Topic 4",
+      right: "Subtopic 4",
+      state: true
+    },
+    {
+      left: "Topic 5",
+      right: "Subtopic 5",
+      state: false
+    },
+  ]);
   return (
     <Layout>
-      <div className="flex flex-col items-center h-full">
+      <div className="flex flex-col items-center h-full w-full">
         <h1 className="font-[Gilroy-Bold] text-[64px] pt-6">Algo<span className="text-primary">Malgo!</span></h1>
         <p className="font-sans text-[24px] text-gray-500">A complete guide to learning algorithms</p>
         <Link href="/introduction">
           <a className="flex flex-col items-center
           w-[400px] bg-primary font-[Gilroy-Light] text-[24px] text-white
           rounded-[16px] hover:opacity-80
-          p-[16px] mt-10 mb-10 w-full text-center">Start</a>
+          p-[16px] mt-10 mb-10 text-center">Start</a>
         </Link>
-        <div className="flex flex-col justify-center">
-          <div>
-            <Item topic="Topic" subtopic="SubTopic"/>
-            <Item subtopic="SubTopic"/>
-            <Item subtopic="SubTopic"/>
-            <Item subtopic="SubTopic"/>
-            <Item topic="Some" subtopic="SubTopic"/>
-            <Item subtopic="SubTopic"/>
+        <div className="flex w-1/3 justify-between">
+          <div className="flex flex-col space-y-8 w-5/12 items-end whitespace-nowrap">
+            {items.map(({left}, i) => <h1>{left}</h1>)}
+          </div>
+          <div className="flex justify-center w-1/6">
+            <div>
+              {items.map(({state}) => <Item state={state} />)}
+            </div>
+          </div>
+          <div className="flex flex-col space-y-8 w-5/12 whitespace-nowrap">
+            {items.map(({right}) => <h1>{right}</h1>)}
           </div>
         </div>
       </div>
