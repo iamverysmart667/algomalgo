@@ -32,9 +32,9 @@ export default function Home() {
       state: false
     },
     {
-      left: "Topic 2",
+      left: null,
       right: "Subtopic 2",
-      state: false
+      state: true
     },
     {
       left: "Topic 3",
@@ -44,7 +44,7 @@ export default function Home() {
     {
       left: "Topic 4",
       right: "Subtopic 4",
-      state: true
+      state: false
     },
     {
       left: "Topic 5",
@@ -65,7 +65,7 @@ export default function Home() {
         </Link>
         <div className="flex w-1/3 justify-between">
           <div className="flex flex-col space-y-8 w-5/12 items-end whitespace-nowrap">
-            {items.map(({left}, i) => <h1>{left}</h1>)}
+            {items.map(({left}, i) => <h1>{left || (<span>&nbsp;</span>)}</h1>)}
           </div>
           <div className="flex justify-center w-1/6">
             <div>
