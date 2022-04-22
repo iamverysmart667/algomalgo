@@ -1,6 +1,7 @@
 import Layout from "../components/Layout";
 import {useState} from "react";
 import Link from "next/link";
+import List from "../components/List";
 
 const Check = () => (
   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -25,7 +26,7 @@ function Item({ state }) {
 }
 
 export default function Home() {
-  const [items, setItems] = useState([
+  const items = [
     {
       left: "Topic 1 arsitonariostn iaors taioerstn oaiesnt ioaer stioan",
       right: "Subtopic 1",
@@ -51,7 +52,8 @@ export default function Home() {
       right: "Subtopic 5",
       state: false
     },
-  ]);
+  ];
+
   return (
     <Layout>
       <div className="flex flex-col items-center h-full w-full">
@@ -63,19 +65,7 @@ export default function Home() {
           rounded-[16px] hover:opacity-80
           p-[16px] mt-10 mb-10 text-center">Start</a>
         </Link>
-        <div className="flex w-1/3 justify-between">
-          <div className="flex flex-col space-y-8 w-5/12 items-end whitespace-nowrap">
-            {items.map(({left}, i) => <h1>{left || (<span>&nbsp;</span>)}</h1>)}
-          </div>
-          <div className="flex justify-center w-1/6">
-            <div>
-              {items.map(({state}) => <Item state={state} />)}
-            </div>
-          </div>
-          <div className="flex flex-col space-y-8 w-5/12 whitespace-nowrap">
-            {items.map(({right}) => <h1>{right}</h1>)}
-          </div>
-        </div>
+        <List defaultItems={items}/>
       </div>
     </Layout>
   );
