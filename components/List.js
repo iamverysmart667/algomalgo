@@ -40,6 +40,8 @@ function List({ defaultItems }) {
     setItems(newItems);
   }
 
+  const hasLeft = items.some(item => item.left);
+
   useEffect(() => {
     if (items.every(item => item.state)) {
       items.forEach((item, i) => toggleItem(i)());
@@ -47,11 +49,13 @@ function List({ defaultItems }) {
   });
 
   return (
-    <div className="flex flex-col items-center h-full w-full">
+    <div className={`flex flex-col ${hasLeft ? 'items-center' : 'pl-4'} h-full w-full`}>
       <div className="flex w-1/3 justify-between">
-        <div className="flex flex-col space-y-8 w-5/12 items-end whitespace-nowrap">
-          {items.map(({left}) => <h1>{left || (<span>&nbsp;</span>)}</h1>)}
-        </div>
+        {hasLeft &&
+          <div className="flex flex-col space-y-8 w-5/12 items-end whitespace-nowrap">
+            {items.map(({left}) => <h1>{left || (<span>&nbsp;</span>)}</h1>)}
+          </div>
+        }
         <div className="flex justify-center w-1/6">
           <div>
             {items.map(({state}, i) => <Item state={state} toggleItem={toggleItem(i)} />)}

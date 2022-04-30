@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "node preload.js && next build",
     "start": "next start -p $PORT"
   },
   "dependencies": {
@@ -17,7 +17,12 @@
     "prisma": "^3.11.1",
     "react": "17.0.2",
     "react-dom": "17.0.2",
+    "react-markdown": "^8.0.3",
+    "remark-gfm": "^3.0.1",
+    "remark-images": "^3.1.0",
     "rxjs": "^7.5.5",
+    "to-vfile": "^7.2.3",
+    "unified": "^10.1.2",
     "util": "^0.12.4"
   },
   "devDependencies": {
