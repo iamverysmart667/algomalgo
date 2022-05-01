@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
 const Check = () => (
   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -31,7 +32,7 @@ function Item({ state, toggleItem }) {
   );
 }
 
-function List({ defaultItems }) {
+function List({ defaultItems, ...props }) {
   const [items, setItems] = useState(defaultItems || []);
 
   const toggleItem = (index) => () => {
@@ -62,7 +63,7 @@ function List({ defaultItems }) {
           </div>
         </div>
         <div className="flex flex-col space-y-8 w-5/12 whitespace-nowrap">
-          {items.map(({right}) => <h1>{right}</h1>)}
+          {items.map(({right, name}) => <Link href={`/${name}`}>{right}</Link>)}
         </div>
       </div>
     </div>

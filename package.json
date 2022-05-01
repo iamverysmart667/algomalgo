@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "node preload.js && next build",
-    "start": "next start -p $PORT"
+    "start": "next start -p 3000",
+    "prod": "npm run build && npm run start"
   },
   "dependencies": {
     "@prisma/client": "^3.11.1",
@@ -18,6 +19,7 @@
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-markdown": "^8.0.3",
+    "remark-breaks": "^3.0.2",
     "remark-gfm": "^3.0.1",
     "remark-images": "^3.1.0",
     "rxjs": "^7.5.5",

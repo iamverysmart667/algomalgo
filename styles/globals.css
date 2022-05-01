@@ -10,15 +10,38 @@ body {
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+@layer base {
+    h1 {
+        @apply text-2xl pt-2 pb-2 font-sans;
+    }
+    h2 {
+        @apply text-xl pt-1.5 pb-1.5 font-sans;
+    }
+    h3 {
+        @apply text-lg pt-1 pb-1 font-sans;
+    }
+    br {
+        @apply mb-2;
+    }
+    hr {
+        @apply my-2;
+    }
+    p {
+        @apply text-base font-sans max-w-screen-md;
+    }
+    dd {
+        @apply mb-2;
+    }
+    code {
+        @apply inline-block bg-blue-100 rounded-sm px-1.5 py-0.5;
+    }
+    table, th, td {
+        @apply border border-gray-200 rounded-lg;
+    }
+    i {
+        @apply font-normal;
+    }
 }
-
 * {
   box-sizing: border-box;
-}
-
-h1 {
-    font-size: large;
 }

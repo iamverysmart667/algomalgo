@@ -18,6 +18,8 @@ export function getServerSideProps() {
 
 function Content(props) {
   const [article, setArticle] = useState('');
+  const list = Object.keys(articles).map(key => articles[key]);
+  console.log(list)
 
   useEffect( () => {
     setArticle(props.content);
@@ -26,7 +28,7 @@ function Content(props) {
   return (
     <Layout>
       <div className='flex w-1/5 overflow-y-scroll pt-2 pl-2 font-sans'>
-        <List defaultItems={articles}/>
+        {list.length && <List defaultItems={list}/>}
       </div>
       <div className='w-4/5 overflow-y-scroll'>
         <ReactMarkdown escapeHtml={false} remarkPlugins={[remarkImages, remarkGfm]}>
