@@ -54,7 +54,7 @@ function List({ defaultItems, ...props }) {
       <div className="flex w-1/3 justify-between">
         {hasLeft &&
           <div className="flex flex-col space-y-8 w-5/12 items-end whitespace-nowrap">
-            {items.map(({left}) => <h1>{left || (<span>&nbsp;</span>)}</h1>)}
+            {items.map(({left}) => <b>{left || (<span>&nbsp;</span>)}</b>)}
           </div>
         }
         <div className="flex justify-center w-1/6">

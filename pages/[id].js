@@ -38,7 +38,6 @@ function Content({ content, ...props }) {
         {list.length && <List defaultItems={list} />}
       </div>
       <div className='w-4/5 overflow-y-scroll'>
-        {id}
         {article && (
           <ReactMarkdown escapeHtml={false} remarkPlugins={[remarkImages, remarkGfm]}>
             {article}

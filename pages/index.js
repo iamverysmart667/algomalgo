@@ -57,7 +57,9 @@ export default function Home() {
   return (
     <Layout>
       <div className="flex flex-col items-center h-full w-full">
-        <h1 className="font-[Gilroy-Bold] text-[64px] pt-6">Algo<span className="text-primary">Malgo!</span></h1>
+        <div className="font-[Gilroy-Bold] text-[64px] pt-6">
+          Algo<span className="text-primary">Malgo!</span>
+        </div>
         <p className="font-sans text-[24px] text-gray-500">A complete guide to learning algorithms</p>
         <Link href="/introduction">
           <a className="flex flex-col items-center
