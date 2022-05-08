@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { userService } from "../services";
 import { useRouter } from "next/router";
 
-function App({ Component, pageProps }) {
+export default function App({ Component, pageProps }) {
   const router = useRouter();
   const [user, setUser] = useState(null);
   const [authorized, setAuthorized] = useState(false);
@@ -53,5 +53,3 @@ function App({ Component, pageProps }) {
     </>
   );
 }
-
-export default App;

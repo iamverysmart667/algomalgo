@@ -1,4 +1,4 @@
-function TextField(props) {
+export default function TextField(props) {
   return (
     <>
       <div className="font-sans w-full p-1 text-gray-500">
@@ -11,5 +11,3 @@ function TextField(props) {
     </>
   )
 }
-
-export default TextField;

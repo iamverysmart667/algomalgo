@@ -1,8 +1,8 @@
 import Nav from "./Nav";
 
-function Layout({ children }) {
+export default function Layout({ children }) {
   return (
-    <div className="flex flex-col items-center w-full h-screen">
+    <div className="flex flex-col items-center w-full h-screen font-[Gilroy-Medium]">
       <Nav/>
       <main className="flex justify-center w-full h-full">
         {children}
@@ -10,5 +10,3 @@ function Layout({ children }) {
     </div>
   );
 }
-
-export default Layout;

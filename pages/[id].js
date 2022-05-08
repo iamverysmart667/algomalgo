@@ -22,7 +22,7 @@ export function getServerSideProps(context) {
   };
 }
 
-function Content({ content, ...props }) {
+export default function Content({ content, ...props }) {
   const router = useRouter();
   const id = router.query.id;
   const [article, setArticle] = useState('');
@@ -47,5 +47,3 @@ function Content({ content, ...props }) {
     </Layout>
   )
 }
-
-export default Content;

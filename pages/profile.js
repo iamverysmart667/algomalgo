@@ -1,17 +1,9 @@
 import Layout from "../components/Layout";
 import { useEffect, useState } from "react";
 import { userService } from "../services";
-
-function Card({ title, children, style, width='full' }) {
-  return (
-    <div className={`flex flex-col w-${width} rounded-2xl shadow-2xl bg-white p-4 ${style}`}>
-      <p className={'text-gray-400'}>{title}</p>
-      <div className={'flex items-center'}>
-        {children}
-      </div>
-    </div>
-  );
-}
+import { buildStyles, CircularProgressbar } from 'react-circular-progressbar';
+import 'react-circular-progressbar/dist/styles.css'
+import { Card } from "../components/Card";
 
 function UserCard({ user }) {
   return (
@@ -26,12 +18,28 @@ function UserCard({ user }) {
   );
 }
 
-function ProgressCard({ title, progress, children }) {
+function ProgressCard({ title, percentage = 0 }) {
   return (
-    <Card>
-      {children}
+    <Card title='Chapters read' style='justify-between'>
+      <div>0</div>
+      <div className='w-1/2'>
+        <CircularProgressbar
+          value={percentage}
+          text={`${percentage}%`}
+          strokeWidth={5}
+          styles={buildStyles({
+            textSize: '1.5rem',
+            textColor: '#000',
+            pathColor: '#4299E1',
+          })}
+        />
+      </div>
     </Card>
   );
+}
+
+function BookmarksCard({ title, bookmarks = [] }) {
+
 }
 
 export default function Profile() {
@@ -47,10 +55,10 @@ export default function Profile() {
       <div className='flex w-4/5 justify-between space-x-5 p-10'>
         <div className='flex flex-col w-full space-y-5'>
           {user ? <UserCard user={user}/> : <p>Loading...</p>}
-          {user ? <ProgressCard>arsetn</ProgressCard> : <p>Loading...</p>}
+          {user ? <ProgressCard percentage={30} /> : <p>Loading...</p>}
         </div>
-        <ProgressCard>ars</ProgressCard>
-        <ProgressCard>art</ProgressCard>
+        <ProgressCard />
+        <ProgressCard />
       </div>
     </Layout>
   );
