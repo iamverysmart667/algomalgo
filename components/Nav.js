@@ -1,11 +1,11 @@
 import Link from "next/link"
 import { userService } from "../services";
 import { useEffect, useState } from "react";
-import { Logo } from "./svg/Logo";
-import { Github } from "./svg/Github";
-import { Telegram } from "./svg/Telegram";
-import { Avatar } from "./svg/Avatar";
-import { Logout } from "./svg/Logout";
+import Logo from "./svg/Logo";
+import Github from "./svg/Github";
+import Telegram from "./svg/Telegram";
+import Avatar from "./svg/Avatar";
+import Logout from "./svg/Logout";
 
 const MyLink = ({secondary, children, to= "#", ...props}) => {
   return (

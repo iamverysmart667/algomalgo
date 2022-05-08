@@ -1,4 +1,4 @@
-export const Logout = () => (
+export default () => (
   <svg width="19" height="18" viewBox="0 0 19 18" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path
       d="M12 16C11.4477 16 11 16.4477 11 17C11 17.5523 11.4477 18 12 18H17C18.1046 18 19 17.1046 19 16V2C19 0.895431 18.1046 0 17 0H12C11.4477 0 11 0.447714 11 1C11 1.55228 11.4477 2 12 2H17V16H12Z"
