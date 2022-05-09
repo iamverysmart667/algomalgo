@@ -1,13 +1,13 @@
 import Layout from "../components/Layout";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { userService } from "../services";
 import { buildStyles, CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css'
 import { Card } from "../components/Card";
 import BookmarksIcon from "../components/svg/Bookmarks";
-import BookmarkEmpty from "../components/svg/Bookmark";
-import BookmarkFull from "../components/svg/BookmarkSelected";
-import articles from "../data/articles.json";
+import { BookmarkItem } from "../components/BookmarkItem";
+import { TestContext} from "./_app";
+import { BookmarkContext, BookmarkDispatchContext } from "../providers/BookmarkProvider";
 
 function UserCard({ user }) {
   return (
@@ -42,31 +42,6 @@ function ProgressCard({ title, percentage = 0 }) {
   );
 }
 
-function CardItem({ title, subtitle, IconEmpty, IconFull, isFull = false, callback }) {
-  const [state, setState] = useState(isFull);
-
-  const toggleState = () => {
-    setState(!state);
-    callback();
-  }
-
-  return (
-    <div className='flex space-x-2 border border-l-0 border-t-0 border-r-0 border-b-1 py-2 items-center'>
-      <div onClick={toggleState}>
-        {state ? <IconFull /> : <IconEmpty />}
-      </div>
-      <div>{title}</div>
-      {subtitle && <div>{subtitle}</div>}
-    </div>
-  );
-}
-
-function BookmarkItem(props) {
-  return (
-    <CardItem IconEmpty={BookmarkEmpty} IconFull={BookmarkFull} {...props} />
-  );
-}
-
 function BookmarksCard({ title = 'Bookmarks', defaultBookmarks = [] }) {
   const [bookmarks, setBookmarks] = useState(defaultBookmarks);
 
@@ -93,20 +68,12 @@ function BookmarksCard({ title = 'Bookmarks', defaultBookmarks = [] }) {
 
 export default function Profile() {
   const [user, setUser] = useState(null);
+  const [bookmarks, setBookmarks] = [useContext(BookmarkContext), useContext(BookmarkDispatchContext)];
 
   useEffect(() => {
     const subscription = userService.user.subscribe(x => setUser(x));
     return () => subscription.unsubscribe();
   }, []);
-
-  const bookmarks =  [
-    {title: 'Title 1'},
-    {title: 'Title 2'},
-    {title: 'Title 3'},
-    {title: 'Title 4'},
-    {title: 'Title 5'},
-    {title: 'Title 6'},
-  ]
 
   return (
     <Layout>
@@ -115,7 +82,7 @@ export default function Profile() {
           {user ? <UserCard user={user}/> : <p>Loading...</p>}
           {user ? <ProgressCard percentage={30} /> : <p>Loading...</p>}
         </div>
-        <BookmarksCard defaultBookmarks={bookmarks}/>
+        <BookmarksCard defaultBookmarks={bookmarks.filter(b => b.state)}/>
         <BookmarksCard/>
       </div>
     </Layout>

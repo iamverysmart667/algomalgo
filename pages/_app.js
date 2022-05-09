@@ -3,6 +3,7 @@ import Head from "next/head";
 import { useEffect, useState } from "react";
 import { userService } from "../services";
 import { useRouter } from "next/router";
+import { BookmarkProvider } from "../providers/BookmarkProvider";
 
 export default function App({ Component, pageProps }) {
   const router = useRouter();
@@ -49,7 +50,9 @@ export default function App({ Component, pageProps }) {
       <Head>
         <title>AlgoMalgo!</title>
       </Head>
-      {authorized && <Component {...pageProps} />}
+      <BookmarkProvider>
+        {authorized && <Component {...pageProps} />}
+      </BookmarkProvider>
     </>
   );
 }

@@ -19,7 +19,6 @@ export function getServerSideProps() {
 function Content(props) {
   const [article, setArticle] = useState('');
   const list = Object.keys(articles).map(key => articles[key]);
-  console.log(list)
 
   useEffect( () => {
     setArticle(props.content);

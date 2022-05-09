@@ -46,7 +46,7 @@ const AuthLinks = () => {
 
 export default function Nav() {
   return (
-    <nav className="fixed flex justify-between px-20 py-2 bg-white w-full">
+    <nav className="flex justify-between px-20 py-2 bg-white w-full">
       <Link href='/'><a><Logo/></a></Link>
       <div className="flex px-2 space-x-4">
         <AuthLinks/>

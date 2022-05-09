@@ -61,7 +61,7 @@ export default function Home() {
           Algo<span className="text-primary">Malgo!</span>
         </div>
         <p className="font-sans text-[24px] text-gray-500">A complete guide to learning algorithms</p>
-        <Link href="/introduction">
+        <Link href="/intro.md">
           <a className="flex flex-col items-center
           w-[400px] bg-primary font-[Gilroy-Light] text-[24px] text-white
           rounded-[16px] hover:opacity-80
