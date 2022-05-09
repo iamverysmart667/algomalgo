@@ -4,6 +4,10 @@ import { userService } from "../services";
 import { buildStyles, CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css'
 import { Card } from "../components/Card";
+import BookmarksIcon from "../components/svg/Bookmarks";
+import BookmarkEmpty from "../components/svg/Bookmark";
+import BookmarkFull from "../components/svg/BookmarkSelected";
+import articles from "../data/articles.json";
 
 function UserCard({ user }) {
   return (
@@ -38,8 +42,53 @@ function ProgressCard({ title, percentage = 0 }) {
   );
 }
 
-function BookmarksCard({ title, bookmarks = [] }) {
+function CardItem({ title, subtitle, IconEmpty, IconFull, isFull = false, callback }) {
+  const [state, setState] = useState(isFull);
 
+  const toggleState = () => {
+    setState(!state);
+    callback();
+  }
+
+  return (
+    <div className='flex space-x-2 border border-l-0 border-t-0 border-r-0 border-b-1 py-2 items-center'>
+      <div onClick={toggleState}>
+        {state ? <IconFull /> : <IconEmpty />}
+      </div>
+      <div>{title}</div>
+      {subtitle && <div>{subtitle}</div>}
+    </div>
+  );
+}
+
+function BookmarkItem(props) {
+  return (
+    <CardItem IconEmpty={BookmarkEmpty} IconFull={BookmarkFull} {...props} />
+  );
+}
+
+function BookmarksCard({ title = 'Bookmarks', defaultBookmarks = [] }) {
+  const [bookmarks, setBookmarks] = useState(defaultBookmarks);
+
+  const toggleBookmark = (index) => () => {
+    const newBookmarks = [...bookmarks];
+    newBookmarks[index].state = !newBookmarks[index].state;
+    setBookmarks(newBookmarks);
+  }
+
+  return (
+    <Card>
+      <div className={'flex flex-col w-full'}>
+        <div className='flex items-center space-x-2'>
+          <BookmarksIcon/>
+          <h2>{title}</h2>
+        </div>
+        {bookmarks.map((bookmark, i) =>
+          <BookmarkItem title={bookmark.title} callback={toggleBookmark(i)} />
+        )}
+      </div>
+    </Card>
+  );
 }
 
 export default function Profile() {
@@ -50,6 +99,15 @@ export default function Profile() {
     return () => subscription.unsubscribe();
   }, []);
 
+  const bookmarks =  [
+    {title: 'Title 1'},
+    {title: 'Title 2'},
+    {title: 'Title 3'},
+    {title: 'Title 4'},
+    {title: 'Title 5'},
+    {title: 'Title 6'},
+  ]
+
   return (
     <Layout>
       <div className='flex w-4/5 justify-between space-x-5 p-10'>
@@ -57,8 +115,8 @@ export default function Profile() {
           {user ? <UserCard user={user}/> : <p>Loading...</p>}
           {user ? <ProgressCard percentage={30} /> : <p>Loading...</p>}
         </div>
-        <ProgressCard />
-        <ProgressCard />
+        <BookmarksCard defaultBookmarks={bookmarks}/>
+        <BookmarksCard/>
       </div>
     </Layout>
   );

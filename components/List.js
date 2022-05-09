@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Check } from "./svg/Check";
+import Check from "./svg/Check";
 
 function Item({ state, toggleItem }) {
   const [checked, setChecked] = useState(state);
