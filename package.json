@@ -5,9 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "node preload.js && next build",
-    "start": "next start -p 3000",
-    "prod": "npm run build && npm run start",
-    "export": "npm run build && next export -o _static"
+    "start": "next start -H 0.0.0.0 -p ${PORT:-8080}",
+    "prod": "npm run build && npm run start"
   },
   "dependencies": {
     "@prisma/client": "^3.11.1",
