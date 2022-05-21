@@ -13,7 +13,7 @@ import TextSelector from 'text-selection-react';
 import { NoteContext, NoteDispatchContext } from "../providers/NoteProvider";
 import rehypeRaw from "rehype-raw";
 
-export function getStaticProps(context) {
+export function getServerSideProps(context) {
   const { id } = context.query;
   const content = process.env.ENVIRONMENT === 'production'
     ? articles[id]
