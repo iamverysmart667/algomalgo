@@ -4,13 +4,7 @@ const BookmarkContext = createContext(undefined);
 const BookmarkDispatchContext = createContext(undefined);
 
 function BookmarkProvider({ children }) {
-  const [bookmarks, setBookmarks] = useState([
-    {
-      id: 'intro.md',
-      title: 'Introduction',
-      state: false
-    }
-  ]);
+  const [bookmarks, setBookmarks] = useState([]);
 
   return (
     <BookmarkContext.Provider value={bookmarks}>

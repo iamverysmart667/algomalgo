@@ -26,7 +26,7 @@ function Item({ state, toggleItem }) {
   );
 }
 
-export default function List({ defaultItems, ...props }) {
+export default function List({ defaultItems, renderLeft = false }) {
   const [items, setItems] = useState(defaultItems || []);
 
   const toggleItem = (index) => () => {
@@ -35,25 +35,17 @@ export default function List({ defaultItems, ...props }) {
     setItems(newItems);
   }
 
-  const hasLeft = items.some(item => item.left);
-
-  useEffect(() => {
-    if (items.every(item => item.state)) {
-      items.forEach((item, i) => toggleItem(i)());
-    }
-  });
-
   return (
-    <div className={`flex flex-col ${hasLeft ? 'items-center' : 'pl-4'} h-full w-full`}>
+    <div className={`flex flex-col ${renderLeft ? 'items-center' : 'pl-4'} h-full w-full`}>
       <div className="flex w-1/3 justify-between">
-        {hasLeft &&
+        {renderLeft &&
           <div className="flex flex-col space-y-8 w-5/12 items-end whitespace-nowrap">
             {items.map(({left}) => <b>{left || (<span>&nbsp;</span>)}</b>)}
           </div>
         }
         <div className="flex justify-center w-1/6">
           <div>
-            {items.map(({state}, i) => <Item state={state} toggleItem={toggleItem(i)} />)}
+            {items.map(({state}, i) => <Item state={state} toggleItem={toggleItem(i)}/>)}
           </div>
         </div>
         <div className="flex flex-col space-y-8 w-5/12 whitespace-nowrap">

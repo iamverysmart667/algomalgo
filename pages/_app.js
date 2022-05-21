@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { userService } from "../services";
 import { useRouter } from "next/router";
 import { BookmarkProvider } from "../providers/BookmarkProvider";
+import { NoteProvider } from "../providers/NoteProvider";
 
 export default function App({ Component, pageProps }) {
   const router = useRouter();
@@ -51,7 +52,9 @@ export default function App({ Component, pageProps }) {
         <title>AlgoMalgo!</title>
       </Head>
       <BookmarkProvider>
-        {authorized && <Component {...pageProps} />}
+        <NoteProvider>
+          {authorized && <Component {...pageProps}/>}
+        </NoteProvider>
       </BookmarkProvider>
     </>
   );

@@ -4,10 +4,13 @@ import { userService } from "../services";
 import { buildStyles, CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css'
 import { Card } from "../components/Card";
-import BookmarksIcon from "../components/svg/Bookmarks";
-import { BookmarkItem } from "../components/BookmarkItem";
-import { TestContext} from "./_app";
+import NotesIcon from "../components/svg/Notes";
+import { BookmarkItem, BookmarksCard } from "../components/BookmarkItem";
 import { BookmarkContext, BookmarkDispatchContext } from "../providers/BookmarkProvider";
+import { CardItem } from "../components/CardItem";
+import NoteEmpty from "../components/svg/Note";
+import NoteFull from "../components/svg/NoteSelected";
+import { NoteContext, NoteDispatchContext } from "../providers/NoteProvider";
 
 function UserCard({ user }) {
   return (
@@ -36,30 +39,43 @@ function ProgressCard({ title, percentage = 0 }) {
             textColor: '#000',
             pathColor: '#4299E1',
           })}
-        />
+       />
       </div>
     </Card>
   );
 }
 
-function BookmarksCard({ title = 'Bookmarks', defaultBookmarks = [] }) {
-  const [bookmarks, setBookmarks] = useState(defaultBookmarks);
+export function NoteItem(props) {
+  return (
+    <>
+      <CardItem IconEmpty={NoteEmpty} IconFull={NoteFull}>
+        {props.highlighted ?
+          <details>
+            {props.highlighted}
+            <summary>
+              {props.title}
+            </summary>
+        </details>
+        : props.title}
+      </CardItem>
+    </>
+);
+}
 
-  const toggleBookmark = (index) => () => {
-    const newBookmarks = [...bookmarks];
-    newBookmarks[index].state = !newBookmarks[index].state;
-    setBookmarks(newBookmarks);
-  }
+function NotesCard({ title = 'Notes', defaultNotes = [] }) {
+  const [notes, setNotes] = [useContext(NoteContext), useContext(NoteDispatchContext)];
+
+  console.log(notes);
 
   return (
     <Card>
       <div className={'flex flex-col w-full'}>
         <div className='flex items-center space-x-2'>
-          <BookmarksIcon/>
+          <NotesIcon/>
           <h2>{title}</h2>
         </div>
-        {bookmarks.map((bookmark, i) =>
-          <BookmarkItem title={bookmark.title} callback={toggleBookmark(i)} />
+        {notes.map((note, i) =>
+          <NoteItem title={note.title} highlighted={note.highlighted} />
         )}
       </div>
     </Card>
@@ -75,15 +91,17 @@ export default function Profile() {
     return () => subscription.unsubscribe();
   }, []);
 
+  const notes = useContext(NoteContext);
+
   return (
     <Layout>
       <div className='flex w-4/5 justify-between space-x-5 p-10'>
         <div className='flex flex-col w-full space-y-5'>
           {user ? <UserCard user={user}/> : <p>Loading...</p>}
-          {user ? <ProgressCard percentage={30} /> : <p>Loading...</p>}
+          {user ? <ProgressCard percentage={30}/> : <p>Loading...</p>}
         </div>
         <BookmarksCard defaultBookmarks={bookmarks.filter(b => b.state)}/>
-        <BookmarksCard/>
+        <NotesCard defaultNotes={notes}/>
       </div>
     </Layout>
   );

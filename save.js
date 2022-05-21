@@ -5,7 +5,7 @@ import Link from "next/link";
 function Group({ name, items }) {
   return (
     <div className='flex-col ems-start'>
-      <h2>{name}</h2><br />
+      <h2>{name}</h2><br/>
       {items.map((item, i, {length}) => (
         <Item last={i === length - 1}>
           <Link href={item.href}>{item.name}</Link>
@@ -38,7 +38,7 @@ function Content() {
       <Layout>
         <div className='flex w-full '>
           <div className='w-1/5 bg-sky-100 overflow-y-scroll'>
-            <Group {...group} />
+            <Group {...group}/>
           </div>
           <div className='w-4/5'>a</div>
         </div>

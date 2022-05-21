@@ -24,10 +24,10 @@ export default function PageWithJSbasedForm() {
     // We pass the event to the handleSubmit() function on submit.
     <form onSubmit={handleSubmit}>
       <label htmlFor="username">Username</label>
-      <input type="text" id="first" name="username" required />
+      <input type="text" id="first" name="username" required/>
 
       <label htmlFor="last">Last Name</label>
-      <input type="text" id="last" name="password" required />
+      <input type="text" id="last" name="password" required/>
 
       <button type="submit">Submit</button>
     </form>

@@ -18,7 +18,7 @@ function humanize(str) {
       if (extension !== '.md') continue;
       const content = await fs.promises.readFile(path.join('articles', name), 'utf8');
       const title = humanize(name.replace(extension, ''));
-      articles[name] = { content, right: title, name };
+      articles[name] = { content, left: title, right: title, name };
     }
     fs.writeFileSync("data/articles.json", JSON.stringify(articles, null, 2));
   }

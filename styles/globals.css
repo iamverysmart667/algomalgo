@@ -42,6 +42,11 @@ body {
         @apply font-normal;
     }
 }
+
 * {
   box-sizing: border-box;
+}
+
+::marker {
+    content: "";
 }

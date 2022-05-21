@@ -2,6 +2,7 @@ import Layout from "../components/Layout";
 import {useState} from "react";
 import Link from "next/link";
 import List from "../components/List";
+import articles from "../data/articles";
 
 const Check = () => (
   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -26,33 +27,7 @@ function Item({ state }) {
 }
 
 export default function Home() {
-  const items = [
-    {
-      left: "Topic 1 arsitonariostn iaors taioerstn oaiesnt ioaer stioan",
-      right: "Subtopic 1",
-      state: false
-    },
-    {
-      left: null,
-      right: "Subtopic 2",
-      state: true
-    },
-    {
-      left: "Topic 3",
-      right: "Subtopic 3ariosnt ioa trsiot aiostn airstnair tairost ariost oa",
-      state: false
-    },
-    {
-      left: "Topic 4",
-      right: "Subtopic 4",
-      state: false
-    },
-    {
-      left: "Topic 5",
-      right: "Subtopic 5",
-      state: false
-    },
-  ];
+  const list = Object.values(articles);
 
   return (
     <Layout>
@@ -67,7 +42,8 @@ export default function Home() {
           rounded-[16px] hover:opacity-80
           p-[16px] mt-10 mb-10 text-center">Start</a>
         </Link>
-        <List defaultItems={items}/>
+        {list.length && <List defaultItems={list} renderLeft={true}/>}
+        {/*<List defaultItems={items}/>*/}
       </div>
     </Layout>
   );

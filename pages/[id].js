@@ -6,12 +6,14 @@ import remarkImages from "remark-images";
 import remarkGfm from "remark-gfm";
 import articles from "../data/articles.json";
 import { useRouter } from "next/router";
-import remarkBreaks from "remark-breaks";
 import fs from "fs";
 import { BookmarkItem } from "../components/BookmarkItem";
 import { BookmarkContext, BookmarkDispatchContext } from "../providers/BookmarkProvider";
+import TextSelector from 'text-selection-react';
+import { NoteContext, NoteDispatchContext } from "../providers/NoteProvider";
+import rehypeRaw from "rehype-raw";
 
-export function getServerSideProps(context) {
+export function getStaticProps(context) {
   const { id } = context.query;
   const content = process.env.ENVIRONMENT === 'production'
     ? articles[id]
@@ -20,15 +22,16 @@ export function getServerSideProps(context) {
   return {
     props: {
       content,
+      id
     },
   };
 }
 
 export default function Content({ content, ...props }) {
-  const router = useRouter();
-  const id = router.query.id;
+  const id = props.id;
   const [article, setArticle] = useState('');
   const [bookmarks, setBookmarks] = [useContext(BookmarkContext), useContext(BookmarkDispatchContext)];
+  const [notes, setNotes] = [useContext(NoteContext), useContext(NoteDispatchContext)];
   const list = Object.values(articles);
 
   const hasBookmark = bookmarks.find(bookmark => bookmark.id === id);
@@ -45,18 +48,31 @@ export default function Content({ content, ...props }) {
   }
 
   useEffect( () => {
-    setArticle(content);
+    setArticle(content.replace('How Circular Queue Works', 'How Circular Queue Works></i>'));
   }, [content]);
 
   return (
     <Layout>
+      <TextSelector
+        events={[
+          {
+            text: 'Submit',
+            handler: (_, highlighted) => {
+              const title = prompt('Note name');
+              setNotes(notes.concat({ article: id, title, highlighted, state: false }));
+            }
+          }
+        ]}
+        color={'yellow'}
+        colorText={true}
+    />
       <div className='flex w-1/5 overflow-y-scroll pt-2 pl-2 font-sans'>
-        {list.length && <List defaultItems={list} />}
+        {list.length && <List defaultItems={list}/>}
       </div>
       <div className='w-4/5 overflow-y-scroll'>
         <BookmarkItem title='Add to Bookmarks' callback={toggleBookmark} isFull={bookmarks.filter(b => b.id === id)[0]?.state}/>
         {article && (
-          <ReactMarkdown escapeHtml={false} remarkPlugins={[remarkImages, remarkGfm]}>
+          <ReactMarkdown escapeHtml={false} remarkPlugins={[remarkImages, remarkGfm]} rehypePlugins={[rehypeRaw]}>
             {article}
           </ReactMarkdown>
         )}
