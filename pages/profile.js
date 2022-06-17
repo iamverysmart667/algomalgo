@@ -1,16 +1,17 @@
 import Layout from "../components/Layout";
-import { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { userService } from "../services";
 import { buildStyles, CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css'
 import { Card } from "../components/Card";
 import NotesIcon from "../components/svg/Notes";
 import { BookmarkItem, BookmarksCard } from "../components/BookmarkItem";
-import { BookmarkContext, BookmarkDispatchContext } from "../providers/BookmarkProvider";
+import { UserDataContext, UserDataDispatchContext } from "../providers/UserDataProvider";
 import { CardItem } from "../components/CardItem";
 import NoteEmpty from "../components/svg/Note";
 import NoteFull from "../components/svg/NoteSelected";
 import { NoteContext, NoteDispatchContext } from "../providers/NoteProvider";
+import articles from "../data/articles.json";
 
 function UserCard({ user }) {
   return (
@@ -25,14 +26,14 @@ function UserCard({ user }) {
   );
 }
 
-function ProgressCard({ title, percentage = 0 }) {
+function ProgressCard({ title, completed = 0, percentage = 0 }) {
   return (
     <Card title='Chapters read' style='justify-between'>
-      <div>0</div>
+      <div>{completed}</div>
       <div className='w-1/2'>
         <CircularProgressbar
           value={percentage}
-          text={`${percentage}%`}
+          text={`${percentage.toPrecision(3)}%`}
           strokeWidth={5}
           styles={buildStyles({
             textSize: '1.5rem',
@@ -65,7 +66,7 @@ export function NoteItem(props) {
 function NotesCard({ title = 'Notes', defaultNotes = [] }) {
   const [notes, setNotes] = [useContext(NoteContext), useContext(NoteDispatchContext)];
 
-  console.log(notes);
+  console.log({ notes });
 
   return (
     <Card>
@@ -84,23 +85,26 @@ function NotesCard({ title = 'Notes', defaultNotes = [] }) {
 
 export default function Profile() {
   const [user, setUser] = useState(null);
-  const [bookmarks, setBookmarks] = [useContext(BookmarkContext), useContext(BookmarkDispatchContext)];
-
+  const [getUserData, setUserData] = [useContext(UserDataContext), useContext(UserDataDispatchContext)];
+  const getBookmarks = () => getUserData().bookmarks;
+  const getArticles = () => getUserData().articles;
+  const totalArticles = Object.keys(articles).length, passedArticles = getArticles().length;
+  const percentage = passedArticles / totalArticles * 100;
+  // Move setBookmarks to separate file where firebase stuff will be
   useEffect(() => {
     const subscription = userService.user.subscribe(x => setUser(x));
     return () => subscription.unsubscribe();
   }, []);
 
   const notes = useContext(NoteContext);
-
   return (
     <Layout>
       <div className='flex w-4/5 justify-between space-x-5 p-10'>
         <div className='flex flex-col w-full space-y-5'>
           {user ? <UserCard user={user}/> : <p>Loading...</p>}
-          {user ? <ProgressCard percentage={30}/> : <p>Loading...</p>}
+          {user ? <ProgressCard percentage={percentage} completed={passedArticles} /> : <p>Loading...</p>}
         </div>
-        <BookmarksCard defaultBookmarks={bookmarks.filter(b => b.state)}/>
+        <BookmarksCard defaultBookmarks={getBookmarks()}/>
         <NotesCard defaultNotes={notes}/>
       </div>
     </Layout>
