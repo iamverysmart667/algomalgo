@@ -3,7 +3,7 @@ import Head from "next/head";
 import { useEffect, useState } from "react";
 import { userService } from "../services";
 import { useRouter } from "next/router";
-import { BookmarkProvider } from "../providers/BookmarkProvider";
+import { UserDataProvider } from "../providers/UserDataProvider";
 import { NoteProvider } from "../providers/NoteProvider";
 
 export default function App({ Component, pageProps }) {
@@ -46,16 +46,23 @@ export default function App({ Component, pageProps }) {
       setAuthorized(true);
     }
   }
+
+  console.log({ user });
+
   return (
     <>
       <Head>
         <title>AlgoMalgo!</title>
       </Head>
-      <BookmarkProvider>
-        <NoteProvider>
-          {authorized && <Component {...pageProps}/>}
-        </NoteProvider>
-      </BookmarkProvider>
+      {
+        authorized && (
+          <UserDataProvider username={user?.username}>
+            <NoteProvider>
+              <Component {...pageProps}/>
+            </NoteProvider>
+          </UserDataProvider>
+        )
+      }
     </>
   );
 }

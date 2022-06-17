@@ -7,7 +7,9 @@ const nextConfig = {
   },
   publicRuntimeConfig: {
     // API url
-    apiUrl: 'https://walrus-app-4pbjg.ondigitalocean.app/api'
+    apiUrl: process.env.ENVIRONMENT === 'production'
+      ? 'https://walrus-app-4pbjg.ondigitalocean.app/api'
+      : 'http://localhost:3000/api'
   }
 }
 

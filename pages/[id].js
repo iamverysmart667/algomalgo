@@ -8,7 +8,7 @@ import articles from "../data/articles.json";
 import { useRouter } from "next/router";
 import fs from "fs";
 import { BookmarkItem } from "../components/BookmarkItem";
-import { BookmarkContext, BookmarkDispatchContext } from "../providers/BookmarkProvider";
+import { UserDataContext, UserDataDispatchContext } from "../providers/UserDataProvider";
 import TextSelector from 'text-selection-react';
 import { NoteContext, NoteDispatchContext } from "../providers/NoteProvider";
 import rehypeRaw from "rehype-raw";
@@ -30,22 +30,27 @@ export function getServerSideProps(context) {
 export default function Content({ content, ...props }) {
   const id = props.id;
   const [article, setArticle] = useState('');
-  const [bookmarks, setBookmarks] = [useContext(BookmarkContext), useContext(BookmarkDispatchContext)];
+  const [getUserData, setUserData] = [useContext(UserDataContext), useContext(UserDataDispatchContext)];
   const [notes, setNotes] = [useContext(NoteContext), useContext(NoteDispatchContext)];
   const list = Object.values(articles);
 
-  const hasBookmark = bookmarks.find(bookmark => bookmark.id === id);
+  const getBookmarks = () => getUserData().bookmarks;
+  const getArticles = () => getUserData().articles;
+  const hasBookmark = getBookmarks().includes(id);
 
-  if (!hasBookmark) setBookmarks(bookmarks.concat({ id, title: id, state: false }));
-
-  const toggleBookmark = () => {
-    setBookmarks(
-      bookmarks.map(bookmark => ({
-        ...bookmark,
-        state: bookmark.id === id ? !bookmark.state : bookmark.state
-      }))
-    );
+  const toggle = (current, key, id) => {
+    if (current.includes(id)) {
+      const a = current.filter(x => x !== id);
+      setUserData(key, a);
+    }
+    else {
+      const b = [...current, id];
+      setUserData(key, b);
+    }
   }
+
+  const toggleBookmark = () => toggle(getBookmarks(), 'bookmarks', id);
+  const toggleArticle = (i) => toggle(getArticles(), 'articles', i);
 
   useEffect( () => {
     setArticle(content.replace('How Circular Queue Works', 'How Circular Queue Works></i>'));
@@ -67,10 +72,10 @@ export default function Content({ content, ...props }) {
         colorText={true}
     />
       <div className='flex w-1/5 overflow-y-scroll pt-2 pl-2 font-sans'>
-        {list.length && <List defaultItems={list}/>}
+        {list.length && <List defaultItems={list} callback={toggleArticle} />}
       </div>
       <div className='w-4/5 overflow-y-scroll'>
-        <BookmarkItem title='Add to Bookmarks' callback={toggleBookmark} isFull={bookmarks.filter(b => b.id === id)[0]?.state}/>
+        <BookmarkItem title='Add to Bookmarks' callback={toggleBookmark} isFull={hasBookmark}/>
         {article && (
           <ReactMarkdown escapeHtml={false} remarkPlugins={[remarkImages, remarkGfm]} rehypePlugins={[rehypeRaw]}>
             {article}

@@ -3,6 +3,8 @@ import {SignIn} from "../components/Form";
 
  export default () => (
   <Layout>
-    <SignIn/>
+    <div className='flex items-center'>
+      <SignIn/>
+    </div>
   </Layout>
 );

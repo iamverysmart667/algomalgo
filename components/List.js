@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Link from "next/link";
 import Check from "./svg/Check";
+import { UserDataContext, UserDataDispatchContext } from "../providers/UserDataProvider";
 
 function Item({ state, toggleItem }) {
   const [checked, setChecked] = useState(state);
@@ -26,30 +27,35 @@ function Item({ state, toggleItem }) {
   );
 }
 
-export default function List({ defaultItems, renderLeft = false }) {
-  const [items, setItems] = useState(defaultItems || []);
+export default function List({ defaultItems, renderLeft = false, callback }) {
+  const [getUserData, setUserData] = [useContext(UserDataContext), useContext(UserDataDispatchContext)];
+  const getArticles = () => getUserData().articles;
+  const [items, setItems] = useState(defaultItems);
+
+  const isFinished = (article) => getArticles().includes(article);
 
   const toggleItem = (index) => () => {
     const newItems = [...items];
     newItems[index].state = !newItems[index].state;
     setItems(newItems);
-  }
+    callback(newItems[index].name);
+  };
 
   return (
     <div className={`flex flex-col ${renderLeft ? 'items-center' : 'pl-4'} h-full w-full`}>
       <div className="flex w-1/3 justify-between">
         {renderLeft &&
           <div className="flex flex-col space-y-8 w-5/12 items-end whitespace-nowrap">
-            {items.map(({left}) => <b>{left || (<span>&nbsp;</span>)}</b>)}
+            {items.map(({left, name}) => (left ? <Link href={`/${name}`}>{left}</Link> : <span>&nbsp;</span>))}
           </div>
         }
         <div className="flex justify-center w-1/6">
           <div>
-            {items.map(({state}, i) => <Item state={state} toggleItem={toggleItem(i)}/>)}
+            {items.map(({state}, i) => <Item state={isFinished(items[i].name)} toggleItem={toggleItem(i)}/>)}
           </div>
         </div>
         <div className="flex flex-col space-y-8 w-5/12 whitespace-nowrap">
-          {items.map(({right, name}) => <Link href={`/${name}`}>{right}</Link>)}
+          {items.map(({right, name}) => (right ? <Link href={`/${name}`}>{right}</Link> : <span>&nbsp;</span>))}
         </div>
       </div>
     </div>
