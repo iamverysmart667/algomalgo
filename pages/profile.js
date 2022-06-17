@@ -64,10 +64,7 @@ export function NoteItem(props) {
 }
 
 function NotesCard({ title = 'Notes', defaultNotes = [] }) {
-  const [notes, setNotes] = [useContext(NoteContext), useContext(NoteDispatchContext)];
-
-  console.log({ notes });
-
+  const notes = defaultNotes;
   return (
     <Card>
       <div className={'flex flex-col w-full'}>
@@ -97,6 +94,7 @@ export default function Profile() {
   }, []);
 
   const notes = useContext(NoteContext);
+  const getNotes = () => getUserData().notes;
   return (
     <Layout>
       <div className='flex w-4/5 justify-between space-x-5 p-10'>
@@ -105,7 +103,7 @@ export default function Profile() {
           {user ? <ProgressCard percentage={percentage} completed={passedArticles} /> : <p>Loading...</p>}
         </div>
         <BookmarksCard defaultBookmarks={getBookmarks()}/>
-        <NotesCard defaultNotes={notes}/>
+        <NotesCard defaultNotes={getNotes()}/>
       </div>
     </Layout>
   );

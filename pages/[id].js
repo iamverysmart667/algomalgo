@@ -36,6 +36,7 @@ export default function Content({ content, ...props }) {
 
   const getBookmarks = () => getUserData().bookmarks;
   const getArticles = () => getUserData().articles;
+  const getNotes = () => getUserData().notes;
   const hasBookmark = getBookmarks().includes(id);
 
   const toggle = (current, key, id) => {
@@ -64,7 +65,7 @@ export default function Content({ content, ...props }) {
             text: 'Submit',
             handler: (_, highlighted) => {
               const title = prompt('Note name');
-              setNotes(notes.concat({ article: id, title, highlighted, state: false }));
+              setUserData("notes", getNotes().concat({ article: id, title, highlighted, state: false }));
             }
           }
         ]}
